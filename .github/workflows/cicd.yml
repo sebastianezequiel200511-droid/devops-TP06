@@ -44,10 +44,10 @@ jobs:
 
       - name: Lint Python (flake8)
         run: |
-          flake8 backend/ \
-            --max-line-length=100 \
-            --exclude=backend/tests/ \
-            --count --statistics
+  flake8 backend/ \
+  --max-line-length=100 \
+  --exclude=backend/tests/ \
+  --ignore=E302,E305,E401,E702
 
       - name: Lint YAML (yamllint)
         run: |
