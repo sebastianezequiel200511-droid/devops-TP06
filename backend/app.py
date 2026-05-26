@@ -58,11 +58,13 @@ def get_notes():
 @app.route("/api/notes", methods=["POST"])
 def create_note():
     data = request.get_json()
+    if not data.get("title"):
+        return jsonify({"error": "title requerido"}), 400
     conn = get_conn()
     cur = conn.cursor()
     cur.execute(
         "INSERT INTO notes (title, content) VALUES (%s, %s) RETURNING id",
-        (data["title"], data.get("content", ""))
+        (data.get["title"], data.get("content", ""))
     )
     note_id = cur.fetchone()[0]
     conn.commit()
