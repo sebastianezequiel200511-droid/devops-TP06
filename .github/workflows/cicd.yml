@@ -26,34 +26,36 @@ env:
 jobs:
 
   # ── Job 1: Lint ────────────────────────────────────────
-  lint:
-    name: Lint
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout código
-        uses: actions/checkout@v4
+# ── Job 1: Lint ────────────────────────────────────────
+lint:
+  name: Lint
+  runs-on: ubuntu-latest
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-          cache: 'pip'
+  steps:
+    - name: Checkout código
+      uses: actions/checkout@v4
 
-      - name: Instalar dependencias de lint
-        run: pip install flake8 yamllint
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: 'pip'
 
-      - name: Lint Python (flake8)
-        run: |
-  flake8 backend/ \
-  --max-line-length=100 \
-  --exclude=backend/tests/ \
-  --ignore=E302,E305,E401,E702
+    - name: Instalar dependencias de lint
+      run: pip install flake8 yamllint
 
-      - name: Lint YAML (yamllint)
-        run: |
-          yamllint -d "{extends: default, rules: {line-length: {max: 120}}}" \
-            docker-compose.yml \
-            .github/workflows/
+    - name: Lint Python (flake8)
+      run: |
+        flake8 backend/ \
+        --max-line-length=100 \
+        --exclude=backend/tests/ \
+        --ignore=E302,E305,E401,E702
+
+    - name: Lint YAML (yamllint)
+      run: |
+        yamllint -d "{extends: default, rules: {line-length: {max: 120}}}" \
+        docker-compose.yml \
+        .github/workflows/
 
   # ── Job 2: Test ────────────────────────────────────────
   test:
