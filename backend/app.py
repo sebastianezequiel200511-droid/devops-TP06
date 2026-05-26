@@ -64,7 +64,7 @@ def create_note():
     cur = conn.cursor()
     cur.execute(
         "INSERT INTO notes (title, content) VALUES (%s, %s) RETURNING id",
-        (data.get["title"], data.get("content", ""))
+        (data.get("title"), data.get("content", ""))
     )
     note_id = cur.fetchone()[0]
     conn.commit()
